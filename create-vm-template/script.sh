@@ -115,7 +115,7 @@ install_qemu_agent () {
 
 install_tools () {
     echo -n "Installing TOOLS guest agent..."
-    run_cmd "virt-customize -a $ubuntu_img_filename --run-command 'apt install net-tools iproute2 curl wget ping vim htop fdisk -y && systemctl start qemu-guest-agent'"
+    run_cmd "virt-customize -a $ubuntu_img_filename --run-command 'apt install net-tools iproute2 curl wget iputils-ping vim htop fdisk -y && systemctl start qemu-guest-agent'"
     print_ok
 }
 
