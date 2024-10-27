@@ -109,15 +109,21 @@ enable_cpu_hotplug () {
 
 install_qemu_agent () {
     echo -n "Installing QEMU guest agent..."
-    run_cmd "virt-customize -a $ubuntu_img_filename --run-command 'apt update -y && apt install qemu-guest-agent -y && systemctl start qemu-guest-agent'"
+    run_cmd "virt-customize -a $ubuntu_img_filename --run-command 'apt update -y && apt install qemu-guest-agent -y && systemctl enable qemu-guest-agent'"
     print_ok
 }
 
 install_tools () {
     echo -n "Installing TOOLS guest agent..."
-    run_cmd "virt-customize -a $ubuntu_img_filename --run-command 'apt install net-tools iproute2 curl wget iputils-ping vim htop fdisk -y && systemctl start qemu-guest-agent'"
+    run_cmd "virt-customize -a $ubuntu_img_filename --run-command 'apt install net-tools iproute2 curl wget iputils-ping vim htop fdisk -y'"
+    run_cmd "virt-customize -a $ubuntu_img_filename --run-command 'apt install -y openssh-server -y && systemctl enable ssh'"
+    run_cmd "virt-customize -a $ubuntu_img_filename --run-command 'apt update && apt install -y openssh-server' --run-command 'sed -i \"/^PasswordAuthentication/d\" /etc/ssh/sshd_config && echo PasswordAuthentication yes >> /etc/ssh/sshd_config'"
     print_ok
 }
+
+
+
+
 
 reset_machine_id () {
     echo -n "Resetting the machine ID..."
