@@ -116,7 +116,7 @@ install_qemu_agent () {
 install_tools () {
     echo -n "Installing TOOLS guest agent..."
     run_cmd "virt-customize -a $ubuntu_img_filename --run-command 'apt install net-tools iproute2 curl wget iputils-ping vim htop fdisk -y'"
-    run_cmd "virt-customize -a $ubuntu_img_filename --run-command 'apt install -y openssh-server -y && systemctl enable ssh'"
+    run_cmd "virt-customize -a $ubuntu_img_filename --run-command 'apt install -y openssh-server -y && systemctl enable ssh && rm -rf /etc/ssh/sshd_config.d/60-cloudimg-settings.conf'"
     run_cmd "virt-customize -a $ubuntu_img_filename --run-command 'apt update && apt install -y openssh-server' --run-command 'sed -i \"/^PasswordAuthentication/d\" /etc/ssh/sshd_config && echo PasswordAuthentication yes >> /etc/ssh/sshd_config'"
     print_ok
 }
